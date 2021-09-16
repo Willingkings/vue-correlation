@@ -30,3 +30,13 @@
     this.$router.push('/')
     this.$router.push('/about')
     ```
+### 使用
+ - 路由带参
+   ```
+   { path: '/users/:id', component: User },
+   ```
+   ```
+   const User = {
+      template: '<div>User {{ $route.params.id }}</div>',
+   }
+   ```

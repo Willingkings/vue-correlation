@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "./mvue-router";
 import Login from "../views/Login.vue";
 import Dashboard from "../views/Dashboard.vue";
-import User from "../components/User.vue";
+import User from "../views/User.vue";
 
 // 引入router插件
 // use方法将来会调用install方法
@@ -25,7 +25,7 @@ const routes = [
     component: Dashboard,
     children: [
       {
-        path: "/user",
+        path: "user",
         name: "user",
         component: User,
       },

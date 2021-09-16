@@ -16,8 +16,8 @@
           <el-input type="password" v-model="loginForm.password" prefix-icon="el-icon-lock"></el-input>
         </el-form-item>
         <el-form-item class="login-btns">
-          <!-- <el-button type="primary" @click="onSubmit('loginForm')">{{$t("login.login")}}</el-button> -->
-          <router-link to="/dashboard"><el-button type="primary" >{{$t("login.login")}}</el-button></router-link>
+          <el-button type="primary" @click="onSubmit('loginForm')">{{$t("login.login")}}</el-button>
+          <!-- <router-link to="/dashboard"><el-button type="primary" >{{$t("login.login")}}</el-button></router-link> -->
           <el-button @click="onReset">{{ $t("login.reset") }}</el-button>
         </el-form-item>
       </el-form>
@@ -61,18 +61,18 @@ export default {
     onReset() {
       this.$refs.loginForm.resetFields();
     },
-    onSubmit() {
-      // this.$router.push('/dashboard')
-      // this.$refs[formName].validate(async (valid) => {
-      //   if (!valid) return;
-      //   const result = await this.httpRequests.post(
-      //     "/api/private/v1/login",
-      //     this.loginForm
-      //   );
-      //   if (result && result.data) {
-      //     window.sessionStorage.setItem("tokenStr", result.data.token);
-      //   }
-      // });
+    onSubmit(formName ) {
+      this.$refs[formName].validate(async (valid) => {
+        if (!valid) return;
+        const result = await this.httpRequests.post(
+          "/api/private/v1/login",
+          this.loginForm
+        );
+        if (result && result.data) {
+          window.sessionStorage.setItem("tokenStr", result.data.token);
+          this.$router.push('/dashboard')
+        }
+      });
     },
   },
 };

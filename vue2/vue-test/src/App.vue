@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <!-- <div id="nav">
       <router-link to="/login">Login</router-link>
       <router-link to="/dashboard">Dashboard</router-link>
-    </div>
-    <p @click="$store.commit('add')">{{$store.state.counter}}</p>
+    </div> -->
+    <!-- <p @click="$store.commit('add')">{{$store.state.counter}}</p>
     <p @click="$store.dispatch('add')">async: {{$store.state.counter}}</p>
-    <p @click="$store.dispatch('add')">double: {{$store.getters.doubleCounter}}</p>
+    <p @click="$store.dispatch('add')">double: {{$store.getters.doubleCounter}}</p> -->
     <router-view></router-view>
   </div>
 </template>
@@ -28,7 +28,7 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
-
+/* 
 #nav {
   padding: 30px;
 }
@@ -44,5 +44,5 @@ export default {
 p{
   font-size: 18px;
   line-height: 30px;
-}
+} */
 </style>

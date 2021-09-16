@@ -4,15 +4,39 @@ let Vue;
 class VueRouter {
   constructor(options) {
     this.$options = options;
+
     // 保存当前hash到current, current应该是响应式的
     // 给指定对象定义响应式属性
     Vue.util.defineReactive(this, "current", window.location.hash.slice(1) || "/");
     // this.current = "/";
 
+    Vue.util.defineReactive(this, "matched", [])
+
+    this.match()
+
     // 监控hashchange
     window.addEventListener("hashchange", () => {
       this.current = window.location.hash.slice(1);
+      this.matched = []
+      this.match()
     });
+  }
+
+  match(routes){
+    routes = routes || this.$options.routes;
+
+    for (const route of routes) {
+      if (route.path === '/' && this.current === '/') {
+        this.matched.push(route)
+        return
+      }
+      if (this.current !== "/" && this.current.indexOf(route.path)  != -1) {
+        this.matched.push(route)
+        if (route.children) {
+          this.match(route.children);
+        }
+      }
+    }
   }
 }
 
@@ -59,9 +83,30 @@ VueRouter.install = function (_Vue) {
     render(h) {
       // 可以直接传入一个组件渲染 return h(Home)
       // 思路：如果可以根据url的hash部分动态匹配这个要渲染组件
-      // window.location.hash
+      // 标记当前view深度
+      this.$vnode.data.routerView = true;
+      let parent = this.$parent;
+      let depth = 0; // eslint-disable-line no-unused-vars
+      while (parent) {
+        const vnodeData = parent.$vnode && parent.$vnode.data;
+        if (vnodeData && vnodeData.routerView) {
+          depth++;
+        }
+        parent = parent.$parent;
+      }
+
       let component = null;
-      const route = this.$router.$options.routes.find((route) => route.path === this.$router.current);
+      // const route = this.$router.$options.routes.find((route) => {
+      //   if (route.children) {
+      //     console.log(route);
+      //   }
+      //   route.path === this.$router.current;
+      // });
+      // if (route) {
+      //   component = route.component;
+      // }
+
+      const route = this.$router.matched[depth]
       if (route) {
         component = route.component;
       }
